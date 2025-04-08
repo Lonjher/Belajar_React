@@ -1,35 +1,44 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Board from './components/Board'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  const [xIsNext, setXIsNext] = useState(true);
+  const [history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquares = history[history.length - 1];
+  const handlePlay = () => {
+    setHistory(...history, nextSquares);
+    SetXIsNext(!xIsNext);
+  }
+  
+  const moves = history.map((squares, move) => {
+    let navigation = '';
+    if(moves > 0){
+      navigation = "Pindah ke langkah " + move;
+    }else {
+      navigation = "Klik Board untuk mulai Game";
+    }
+    
+    return (
+      <li key={move}>
+        <button onClick={() => jumpTo(move)}>{navigation}</button>
+      </li>
+    )
+  });
+  
+  function jumpTo(){
+    
+  }
+  
   return (
-    <>
+    <div>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div>
+        <ul>
+          {moves}
+        </ul>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
-
-export default App
